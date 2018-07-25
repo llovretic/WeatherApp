@@ -39,6 +39,7 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "AvenirNext-medium", size: 24)
+        label.textAlignment = .center
         label.text = "min"
         return label
     }()
@@ -47,6 +48,7 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "AvenirNext-medium", size: 24)
+        label.textAlignment = .center
         label.text = "max"
         return label
     }()
@@ -55,6 +57,7 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.textAlignment = .center
         label.text = "Low"
         return label
     }()
@@ -63,6 +66,7 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.textAlignment = .center
         label.text = "High"
         return label
     }()
@@ -70,39 +74,51 @@ class HomeViewController: UIViewController {
     var rainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "humidity_icon")
         return imageView
     }()
     
     var windImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "wind_icon")
         return imageView
     }()
     
     var pressureImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "pressure_icon")
         return imageView
     }()
     
     var rainChance: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.text = "rain"
+        label.textAlignment = .center
         return label
     }()
     
     var windSpeed: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.text = "wind"
+        label.textAlignment = .center
         return label
     }()
     
     var pressureIndicator: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.text = "pressure"
+        label.textAlignment = .center
         return label
     }()
     
@@ -124,19 +140,40 @@ class HomeViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillEqually
         stackView.axis = .horizontal
-        stackView.backgroundColor = UIColor.blue
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    var stackViewLowHighTemperature: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    var stackViewRainWindPressureImages: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        stackView.axis = .horizontal
+        stackView.alignment = .center
         return stackView
     }()
     
     var stackViewRainWindPressure: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        stackView.axis = .horizontal
+        stackView.alignment = .center
         return stackView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.green
         setupView()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -145,7 +182,6 @@ class HomeViewController: UIViewController {
         view.addSubview(temperatureLabel)
         temperatureLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         temperatureLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
-//        temperatureLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         view.addSubview(weatherLabel)
         weatherLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor).isActive =  true
@@ -164,11 +200,53 @@ class HomeViewController: UIViewController {
         stackViewMinMaxTemperature.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         stackViewMinMaxTemperature.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         stackViewMinMaxTemperature.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
-        stackViewMinMaxTemperature.heightAnchor.constraint(equalToConstant: 60).isActive = true
+//        stackViewLowHighTemperature.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 20).isActive = true
+//        stackViewMinMaxTemperature.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        stackViewMinMaxTemperature.addArrangedSubview(minTemperature)
+        stackViewMinMaxTemperature.addArrangedSubview(maxTemperature)
         
+        view.addSubview(stackViewLowHighTemperature)
+        stackViewLowHighTemperature.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        stackViewLowHighTemperature.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        stackViewLowHighTemperature.topAnchor.constraint(equalTo: stackViewMinMaxTemperature.bottomAnchor).isActive = true
+        stackViewLowHighTemperature.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        stackViewLowHighTemperature.addArrangedSubview(lowTemperature)
+        stackViewLowHighTemperature.addArrangedSubview(highTemperature)
         
+        view.addSubview(stackViewRainWindPressureImages)
+        stackViewRainWindPressureImages.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        stackViewRainWindPressureImages.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//        stackViewRainWindPressureImages.topAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
+        stackViewRainWindPressureImages.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        stackViewRainWindPressureImages.addArrangedSubview(rainImageView)
+        stackViewRainWindPressureImages.addArrangedSubview(windImageView)
+        stackViewRainWindPressureImages.addArrangedSubview(pressureImageView)
         
+        view.addSubview(stackViewRainWindPressure)
+        stackViewRainWindPressure.topAnchor.constraint(equalTo: stackViewRainWindPressureImages.bottomAnchor).isActive = true
+        stackViewRainWindPressure.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        stackViewRainWindPressure.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        stackViewRainWindPressure.addArrangedSubview(rainChance)
+        stackViewRainWindPressure.addArrangedSubview(windSpeed)
+        stackViewRainWindPressure.addArrangedSubview(pressureIndicator)
         
+       
+        
+        view.addSubview(searchBar)
+//        searchBar.leadingAnchor.constraint(equalTo: settingsButton.trailingAnchor, constant: 8).isActive = true
+        searchBar.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 15).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+        searchBar.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: pressureIndicator.trailingAnchor, constant: -15).isActive = true
+        
+        view.addSubview(settingsButton)
+        settingsButton.centerXAnchor.constraint(equalTo: rainChance.centerXAnchor).isActive = true
+//        settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+//        settingsButton.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 40).isActive = true
+//        settingsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        settingsButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
+        settingsButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
     }
 
 
