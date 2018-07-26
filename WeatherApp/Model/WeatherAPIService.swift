@@ -28,7 +28,6 @@ class WeatherAPIService {
                         do {
                             let data = try decoder.decode(WeatherDataForViewModel.self, from: jsonData!)
                             emitter.onNext(data)
-                            print(data)
                             emitter.onCompleted()
                         }
                             

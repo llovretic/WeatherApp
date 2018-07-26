@@ -12,6 +12,8 @@
 		476724E92108923700EFB762 /* WeatherDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476724E82108923700EFB762 /* WeatherDataWrapper.swift */; };
 		476724EB21089A8800EFB762 /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476724EA21089A8800EFB762 /* DailyWeather.swift */; };
 		476724EE21089AAD00EFB762 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476724ED21089AAD00EFB762 /* CurrentWeather.swift */; };
+		47C6FD252109F9EF0084B377 /* GothamRoundedBook_21018.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */; };
+		47C6FD262109F9EF0084B377 /* GothamRoundedLight_21020.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */; };
 		47D6830321088D690018B80B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D6830221088D690018B80B /* AppDelegate.swift */; };
 		47D6830521088D690018B80B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D6830421088D690018B80B /* HomeViewController.swift */; };
 		47D6830821088D690018B80B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47D6830621088D690018B80B /* Main.storyboard */; };
@@ -52,6 +54,8 @@
 		476724E82108923700EFB762 /* WeatherDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataWrapper.swift; sourceTree = "<group>"; };
 		476724EA21089A8800EFB762 /* DailyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
 		476724ED21089AAD00EFB762 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
+		47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = GothamRoundedBook_21018.ttf; path = "../../../../Downloads/gotham-rounded/GothamRoundedBook_21018.ttf"; sourceTree = "<group>"; };
+		47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = GothamRoundedLight_21020.ttf; path = "../../../../Downloads/gotham-rounded/GothamRoundedLight_21020.ttf"; sourceTree = "<group>"; };
 		47D682FF21088D690018B80B /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47D6830221088D690018B80B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47D6830421088D690018B80B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +147,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		47C6FD222109F90B0084B377 /* CustomFont */ = {
+			isa = PBXGroup;
+			children = (
+				47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */,
+				47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */,
+			);
+			path = CustomFont;
+			sourceTree = "<group>";
+		};
 		47D682F621088D690018B80B = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +187,7 @@
 				47D6830E21088D690018B80B /* Info.plist */,
 				47D6830921088D690018B80B /* Assets.xcassets */,
 				47D6830221088D690018B80B /* AppDelegate.swift */,
+				47C6FD222109F90B0084B377 /* CustomFont */,
 				476724DD2108906800EFB762 /* StoryBoard */,
 			);
 			path = WeatherApp;
@@ -342,6 +356,8 @@
 			files = (
 				47D6830D21088D690018B80B /* LaunchScreen.storyboard in Resources */,
 				47D6830A21088D690018B80B /* Assets.xcassets in Resources */,
+				47C6FD262109F9EF0084B377 /* GothamRoundedLight_21020.ttf in Resources */,
+				47C6FD252109F9EF0084B377 /* GothamRoundedBook_21018.ttf in Resources */,
 				47D6830821088D690018B80B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

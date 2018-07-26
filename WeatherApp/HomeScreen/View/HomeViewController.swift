@@ -15,23 +15,24 @@ class HomeViewController: UIViewController {
     var temperatureLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 72)
-        label.text = "27"
+        label.font = UIFont(name: "GothamRounded-Light", size: 72)
+        label.textColor = UIColor.white
         return label
     }()
     
     var summaryLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 24)
-        label.text = "Vrijeme"
+        label.font = UIFont(name: "GothamRounded-Light", size: 24)
+        label.textColor = UIColor.white
         return label
     }()
     
     var cityLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 36)
+        label.font = UIFont(name: "GothamRounded-Book", size: 36)
+        label.textColor = UIColor.white
         label.text = "Grad"
         return label
     }()
@@ -39,26 +40,27 @@ class HomeViewController: UIViewController {
     var minTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 24)
+        label.font = UIFont(name: "GothamRounded-Light", size: 24)
         label.textAlignment = .center
-        label.text = "min"
+        label.textColor = UIColor.white
         return label
     }()
     
     var maxTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 24)
+        label.font = UIFont(name: "GothamRounded-Light", size: 24)
         label.textAlignment = .center
-        label.text = "max"
+        label.textColor = UIColor.white
         return label
     }()
     
     var lowTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
         label.textAlignment = .center
+        label.textColor = UIColor.white
         label.text = "Low"
         return label
     }()
@@ -66,8 +68,9 @@ class HomeViewController: UIViewController {
     var highTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
         label.textAlignment = .center
+        label.textColor = UIColor.white
         label.text = "High"
         return label
     }()
@@ -99,8 +102,8 @@ class HomeViewController: UIViewController {
     var rainChance: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
-        label.text = "rain"
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.textColor = UIColor.white
         label.textAlignment = .center
         return label
     }()
@@ -108,8 +111,8 @@ class HomeViewController: UIViewController {
     var windSpeed: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
-        label.text = "wind"
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.textColor = UIColor.white
         label.textAlignment = .center
         return label
     }()
@@ -117,8 +120,8 @@ class HomeViewController: UIViewController {
     var pressureIndicator: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
-        label.text = "pressure"
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.textColor = UIColor.white
         label.textAlignment = .center
         return label
     }()
@@ -133,6 +136,25 @@ class HomeViewController: UIViewController {
     var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.barTintColor = UIColor.white
+        searchBar.layer.cornerRadius = 20
+        searchBar.clipsToBounds = true
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
+//        let searchTextField: UITextField = searchBar.subviews[0].subviews.last as! UITextField
+//        searchTextField.leftView = nil
+//        searchTextField.placeholder = "Search"
+//        searchTextField.rightViewMode = .always
+//        searchTextField.rightView?.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        searchTextField.rightView = UIImageView(image: #imageLiteral(resourceName: "search_icon"))
+        
+        let searchTextField: UITextField = searchBar.subviews[0].subviews.last as! UITextField
+        searchTextField.layer.cornerRadius = 15
+        searchTextField.leftView = nil
+        searchTextField.placeholder = "Search"
+        searchTextField.rightView = UIImageView(image: UIImage(named: "search_icon"))
+        searchTextField.rightViewMode = UITextFieldViewMode.always
+        
         return searchBar
     }()
     
@@ -182,7 +204,7 @@ class HomeViewController: UIViewController {
     var bodyImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
@@ -193,7 +215,7 @@ class HomeViewController: UIViewController {
         return imageView
     }()
     
-  
+    
     
     let disposeBag = DisposeBag()
     var homeViewModel = HomeViewModel()
@@ -212,22 +234,23 @@ class HomeViewController: UIViewController {
         homeViewModel.checkForWeatherData()
         
     }
-
+    
     func setupView(){
-        view.addSubview(bodyImageView)
-        bodyImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        bodyImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        bodyImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        bodyImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        
         view.addSubview(headerImageView)
         headerImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
+        view.addSubview(bodyImageView)
+        bodyImageView.topAnchor.constraint(equalTo: headerImageView.bottomAnchor).isActive = true
+        bodyImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bodyImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bodyImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        bodyImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7).isActive = true
+      
         view.addSubview(temperatureLabel)
         temperatureLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        temperatureLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
+        temperatureLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 130).isActive = true
         
         view.addSubview(summaryLabel)
         summaryLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor).isActive =  true
@@ -287,14 +310,18 @@ class HomeViewController: UIViewController {
         separatorLine.topAnchor.constraint(equalTo: stackViewMinMaxTemperature.topAnchor).isActive = true
         separatorLine.bottomAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
         
-        let WeatherInfo = homeViewModel.weatherData
-        pressureIndicator.text = "\(WeatherInfo.pressure) hpa"
-        windSpeed.text = "\(WeatherInfo.windSpeed) mph"
-        rainChance.text = "\(WeatherInfo.humidity)%"
-        temperatureLabel.text = "\(WeatherInfo.temperature)°"
-        minTemperature.text = "\(WeatherInfo.temperatureMin) °F"
-        maxTemperature.text = "\(WeatherInfo.temperatureMax) °F"
-        summaryLabel.text = WeatherInfo.summary
+        let weatherDataToDisplay = homeViewModel.weatherData
+        pressureIndicator.text = "\(weatherDataToDisplay.pressure!) hpa"
+        windSpeed.text = "\(weatherDataToDisplay.windSpeed!) mph"
+        rainChance.text = "\(weatherDataToDisplay.humidity!)%"
+        temperatureLabel.text = "\(weatherDataToDisplay.temperature!)°"
+        minTemperature.text = "\(weatherDataToDisplay.temperatureMin!) °F"
+        maxTemperature.text = "\(weatherDataToDisplay.temperatureMax!) °F"
+        summaryLabel.text = weatherDataToDisplay.summary
+        bodyImageView.image = weatherDataToDisplay.bodyImage
+        headerImageView.image = weatherDataToDisplay.headerImage
+        view.backgroundColor = weatherDataToDisplay.backgroundColor
+        
         
         
     }
@@ -307,12 +334,11 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [unowned self] event in
                 if event {
                     self.setupView()
-                    print(self.homeViewModel.weatherData)
                 }
             })
             .disposed(by: disposeBag)
     }
-
+    
     
     func initializeErrorObservable() {
         let errorObserver = homeViewModel.errorOccured

@@ -32,6 +32,12 @@ class HomeViewModel {
                 self.weatherData.humidity = (data.currently?.humidity)!*100
                 self.weatherData.pressure = Int((data.currently?.pressure)!.rounded())
                 self.weatherData.windSpeed = (data.currently?.windSpeed)!
+                
+                let backgroundData: (bodyImage: UIImage, headerImage: UIImage,color: UIColor) = (self.weatherData.icon?.values())!
+                self.weatherData.bodyImage = backgroundData.bodyImage
+                self.weatherData.headerImage = backgroundData.headerImage
+                self.weatherData.backgroundColor = backgroundData.color
+                
                 let dailyData = data.daily.data
                 for items in dailyData{
                     let dailyItems: DailyData = items
