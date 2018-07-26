@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 
 class HomeViewController: UIViewController {
@@ -19,7 +20,7 @@ class HomeViewController: UIViewController {
         return label
     }()
     
-    var weatherLabel: UILabel = {
+    var summaryLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "AvenirNext-medium", size: 24)
@@ -165,43 +166,82 @@ class HomeViewController: UIViewController {
     var stackViewRainWindPressure: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.axis = .horizontal
         stackView.alignment = .center
         return stackView
     }()
     
+    var separatorLine: UIView = {
+        let separator = UIView()
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.backgroundColor = UIColor.white
+        return separator
+    }()
+    
+    var bodyImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    var headerImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+  
+    
+    let disposeBag = DisposeBag()
+    var homeViewModel = HomeViewModel()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.green
-        setupView()
-        // Do any additional setup after loading the view, typically from a nib.
+        initializeDataObservable()
+        initializeErrorObservable()
+        homeViewModel.initializeObservableWeatherDataAPI().disposed(by: disposeBag)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        homeViewModel.checkForWeatherData()
+        
     }
 
     func setupView(){
+        view.addSubview(bodyImageView)
+        bodyImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        bodyImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bodyImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bodyImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        
+        view.addSubview(headerImageView)
+        headerImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
         view.addSubview(temperatureLabel)
         temperatureLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         temperatureLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
         
-        view.addSubview(weatherLabel)
-        weatherLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor).isActive =  true
-        weatherLabel.leadingAnchor.constraint(equalTo: temperatureLabel.leadingAnchor).isActive = true
-        weatherLabel.trailingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor).isActive = true
-        weatherLabel.centerXAnchor.constraint(equalTo: temperatureLabel.centerXAnchor).isActive = true
+        view.addSubview(summaryLabel)
+        summaryLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor).isActive =  true
+        summaryLabel.centerXAnchor.constraint(equalTo: temperatureLabel.centerXAnchor).isActive = true
         
         view.addSubview(cityLabel)
         cityLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cityLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        cityLabel.trailingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor).isActive = true
-        cityLabel.leadingAnchor.constraint(equalTo: temperatureLabel.leadingAnchor).isActive = true
         
         view.addSubview(stackViewMinMaxTemperature)
         stackViewMinMaxTemperature.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         stackViewMinMaxTemperature.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         stackViewMinMaxTemperature.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         stackViewMinMaxTemperature.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
-//        stackViewLowHighTemperature.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 20).isActive = true
-//        stackViewMinMaxTemperature.heightAnchor.constraint(equalToConstant: 60).isActive = true
         stackViewMinMaxTemperature.addArrangedSubview(minTemperature)
         stackViewMinMaxTemperature.addArrangedSubview(maxTemperature)
         
@@ -216,7 +256,6 @@ class HomeViewController: UIViewController {
         view.addSubview(stackViewRainWindPressureImages)
         stackViewRainWindPressureImages.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         stackViewRainWindPressureImages.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        stackViewRainWindPressureImages.topAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
         stackViewRainWindPressureImages.heightAnchor.constraint(equalToConstant: 70).isActive = true
         stackViewRainWindPressureImages.addArrangedSubview(rainImageView)
         stackViewRainWindPressureImages.addArrangedSubview(windImageView)
@@ -230,10 +269,7 @@ class HomeViewController: UIViewController {
         stackViewRainWindPressure.addArrangedSubview(windSpeed)
         stackViewRainWindPressure.addArrangedSubview(pressureIndicator)
         
-       
-        
         view.addSubview(searchBar)
-//        searchBar.leadingAnchor.constraint(equalTo: settingsButton.trailingAnchor, constant: 8).isActive = true
         searchBar.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 15).isActive = true
         searchBar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         searchBar.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor).isActive = true
@@ -241,14 +277,55 @@ class HomeViewController: UIViewController {
         
         view.addSubview(settingsButton)
         settingsButton.centerXAnchor.constraint(equalTo: rainChance.centerXAnchor).isActive = true
-//        settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-//        settingsButton.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 40).isActive = true
-//        settingsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         settingsButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        
+        view.addSubview(separatorLine)
+        separatorLine.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        separatorLine.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        separatorLine.topAnchor.constraint(equalTo: stackViewMinMaxTemperature.topAnchor).isActive = true
+        separatorLine.bottomAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
+        
+        let WeatherInfo = homeViewModel.weatherData
+        pressureIndicator.text = "\(WeatherInfo.pressure) hpa"
+        windSpeed.text = "\(WeatherInfo.windSpeed) mph"
+        rainChance.text = "\(WeatherInfo.humidity)%"
+        temperatureLabel.text = "\(WeatherInfo.temperature)°"
+        minTemperature.text = "\(WeatherInfo.temperatureMin) °F"
+        maxTemperature.text = "\(WeatherInfo.temperatureMax) °F"
+        summaryLabel.text = WeatherInfo.summary
+        
+        
+    }
+    
+    func initializeDataObservable(){
+        let dataObserver = homeViewModel.dataIsReady
+        dataObserver
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] event in
+                if event {
+                    self.setupView()
+                    print(self.homeViewModel.weatherData)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
-
+    
+    func initializeErrorObservable() {
+        let errorObserver = homeViewModel.errorOccured
+        errorObserver
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (event) in
+                if event {
+                    ErrorController.alert(viewToPresent: self, title: "Greška!", message: "Ups, došlo je do pogreške")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
 }
 
