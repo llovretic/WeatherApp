@@ -15,16 +15,17 @@ class HomeViewModel {
     let downloadTrigger = PublishSubject<Bool>()
     let errorOccured = PublishSubject<Bool>()
     var weatherData = WeatherDataToPresent()
+    var homeCoordinatorDelegate: HomeCoordinatorDelegate?
     
     
     func initializeObservableWeatherDataAPI() -> Disposable {
         let downloadObserver = downloadTrigger.flatMap { (_) -> Observable<WeatherDataForViewModel> in
-            return WeatherAPIService().observableFetchData(latitude: 0, longitude: 0)
+            return WeatherAPIService().observableFetchWeatherData(latitude: 0, longitude: 0)
         }
         return downloadObserver
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
-            .map({ [unowned self] (data) -> DataAndErrorWrapper in
+            .map({ [unowned self] (data) -> DataAndErrorWrapper<WeatherDataToPresent> in
                 self.weatherData.timeCurrentley = (data.currently?.time)!
                 self.weatherData.summary = (data.currently?.summary)!
                 self.weatherData.icon = icon(rawValue: (data.currently?.icon)!)
@@ -38,8 +39,8 @@ class HomeViewModel {
                 self.weatherData.headerImage = backgroundData.headerImage
                 self.weatherData.backgroundColor = backgroundData.color
                 
-                let dailyData = data.daily.data
-                for items in dailyData{
+                let dailyData = data.daily?.data
+                for items in dailyData!{
                     let dailyItems: DailyData = items
                     self.weatherData.timeDaily = dailyItems.time
                     self.weatherData.temperatureMax = dailyItems.temperatureMax
@@ -48,7 +49,7 @@ class HomeViewModel {
                 }
                 return DataAndErrorWrapper(data: self.weatherData, error: nil)
             })
-            .catchError({ (error) -> Observable<DataAndErrorWrapper> in
+            .catchError({ (error) -> Observable<DataAndErrorWrapper<WeatherDataToPresent>> in
                 return Observable.just(DataAndErrorWrapper(data: self.weatherData, error: error.localizedDescription))
             })
             .subscribe(onNext: { [unowned self](dataToPresent) in
@@ -59,6 +60,11 @@ class HomeViewModel {
                     self.errorOccured.onNext(true)
                 }
             })
+    }
+    
+    func openSearchScreen(){
+        print("ViewModel open search screen")
+        self.homeCoordinatorDelegate?.openNextScreen()
     }
     
     func checkForWeatherData(){

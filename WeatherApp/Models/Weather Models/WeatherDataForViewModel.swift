@@ -10,5 +10,5 @@ import Foundation
 
 class WeatherDataForViewModel: Decodable {
     var currently: CurrentWeather?
-    var daily: DailyWeather
+    var daily: DailyWeather?
 }

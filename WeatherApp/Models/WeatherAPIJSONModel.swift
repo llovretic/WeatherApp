@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct WebPageJson: Decodable{
-    let latitude: Float
-    let longitude: Float
-    let currently: CurrentWeather
-    let daily: DailyWeather
-}
+//struct WebPageJson: Decodable{
+//    let latitude: Float
+//    let longitude: Float
+//    let currently: CurrentWeather
+//    let daily: DailyWeather
+//}
 
 
 

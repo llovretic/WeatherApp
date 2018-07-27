@@ -13,6 +13,7 @@ class HomeCoordinator: Coordinator {
     var presenter: UINavigationController
     var childCoordinators: [Coordinator] = []
     let controller: HomeViewController
+    weak var parentCoordinatorDelegate: ParentCoordinatorDelegate?
     
     init(presneter: UINavigationController){
         self.presenter = presneter
@@ -23,8 +24,31 @@ class HomeCoordinator: Coordinator {
     }
     
     func start() {
-        presenter.present(controller, animated: true)
+        controller.homeViewModel.homeCoordinatorDelegate = self
+        presenter.pushViewController(controller, animated: true)
     }
     
+    
+}
+
+extension HomeCoordinator: HomeCoordinatorDelegate{
+    func openNextScreen() {
+        print("Search coordinator init")
+        let coordinator = SearchCoordinator(presneter: presenter)
+        coordinator.start()
+        coordinator.parentCoordinatorDelegate = self
+        self.addChildCoordinator(childCoordinator: coordinator)
+    }
+    
+    func viewHasFinished() {
+        childCoordinators.removeAll()
+    }
+    
+    
+}
+extension HomeCoordinator: ParentCoordinatorDelegate{
+    func childHasFinished(coordinator: Coordinator) {
+        removeChildCoordinator(childCoordinator: coordinator)
+    }
     
 }

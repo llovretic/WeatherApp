@@ -141,20 +141,12 @@ class HomeViewController: UIViewController {
         searchBar.clipsToBounds = true
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
-//        let searchTextField: UITextField = searchBar.subviews[0].subviews.last as! UITextField
-//        searchTextField.leftView = nil
-//        searchTextField.placeholder = "Search"
-//        searchTextField.rightViewMode = .always
-//        searchTextField.rightView?.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        searchTextField.rightView = UIImageView(image: #imageLiteral(resourceName: "search_icon"))
-        
         let searchTextField: UITextField = searchBar.subviews[0].subviews.last as! UITextField
-        searchTextField.layer.cornerRadius = 15
         searchTextField.leftView = nil
         searchTextField.placeholder = "Search"
         searchTextField.rightView = UIImageView(image: UIImage(named: "search_icon"))
         searchTextField.rightViewMode = UITextFieldViewMode.always
-        
+//        searchBar.gestureRecognizers = 
         return searchBar
     }()
     
@@ -215,10 +207,18 @@ class HomeViewController: UIViewController {
         return imageView
     }()
     
+    var haxButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setBackgroundImage(#imageLiteral(resourceName: "search_icon"), for: .normal)
+        button.addTarget(self, action: #selector(openSearchScreen), for: .touchUpInside)
+        return button
+    }()
+    
     
     
     let disposeBag = DisposeBag()
-    var homeViewModel = HomeViewModel()
+    var homeViewModel: HomeViewModel!
     
     
     override func viewDidLoad() {
@@ -233,6 +233,11 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         homeViewModel.checkForWeatherData()
         
+    }
+    
+    @objc func openSearchScreen(){
+        print("Button taped")
+        homeViewModel.openSearchScreen()
     }
     
     func setupView(){
@@ -309,6 +314,12 @@ class HomeViewController: UIViewController {
         separatorLine.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         separatorLine.topAnchor.constraint(equalTo: stackViewMinMaxTemperature.topAnchor).isActive = true
         separatorLine.bottomAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
+        
+        view.addSubview(haxButton)
+        haxButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        haxButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        haxButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        haxButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         let weatherDataToDisplay = homeViewModel.weatherData
         pressureIndicator.text = "\(weatherDataToDisplay.pressure!) hpa"

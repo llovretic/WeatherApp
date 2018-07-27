@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct WeatherDataWrapper<T> {
-    var currently: [T]
-    var daily: [T]
-}
+//struct WeatherDataWrapper<T> {
+//    var currently: [T]
+//    var daily: [T]
+//}
+
