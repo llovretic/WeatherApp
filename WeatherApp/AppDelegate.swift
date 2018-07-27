@@ -12,12 +12,20 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var coordinator: Coordinator!
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.rootViewController = HomeViewController()
+        
+        let navigationController = UINavigationController()
+//        navigationController.isNavigationBarHidden = true
+        window?.rootViewController = navigationController
+        let coordinator = AppCoordinator(presneter: navigationController)
+        coordinator.start()
+        self.coordinator = coordinator
+        
         return true
     }
 

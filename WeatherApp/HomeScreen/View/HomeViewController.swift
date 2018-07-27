@@ -188,7 +188,7 @@ class HomeViewController: UIViewController {
     var stackViewRainWindPressure: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
         stackView.axis = .horizontal
         stackView.alignment = .center
         return stackView
