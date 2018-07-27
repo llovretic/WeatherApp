@@ -20,7 +20,7 @@ class HomeViewModel {
     
     func initializeObservableWeatherDataAPI() -> Disposable {
         let downloadObserver = downloadTrigger.flatMap { (_) -> Observable<WeatherDataForViewModel> in
-            return WeatherAPIService().observableFetchWeatherData(latitude: 0, longitude: 0)
+            return WeatherAPIService().observableFetchWeatherData(latitude: "", longitude: "")
         }
         return downloadObserver
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))

@@ -1,5 +1,5 @@
 //
-//  CitiyDataForViewModel.swift
+//  DissmissCoordinatorDelegate.swift
 //  WeatherApp
 //
 //  Created by Luka Lovretić on 27/07/2018.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct CityDataForViewModel: Decodable {
-    let geonames: GeoNamesOld
+protocol DissmissCoordinatorDelegate: CoordinatorDelegate {
+    func dissmissViewController()
 }

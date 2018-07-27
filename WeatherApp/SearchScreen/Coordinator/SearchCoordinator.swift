@@ -25,7 +25,20 @@ class SearchCoordinator: Coordinator {
     }
     
     func start() {
+        controller.searchViewModel.searchCoordinatorDelegate = self
         presenter.present(controller, animated: true)
+    }
+    
+    
+}
+
+extension SearchCoordinator: DissmissCoordinatorDelegate {
+    func dissmissViewController() {
+        self.presenter.dismiss(animated: true)
+    }
+    
+    func viewHasFinished() {
+        childCoordinators.removeAll()
     }
     
     

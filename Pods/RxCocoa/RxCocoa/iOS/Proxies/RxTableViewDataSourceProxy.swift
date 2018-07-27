@@ -21,11 +21,11 @@ fileprivate final class TableViewDataSourceNotSet
     : NSObject
     , UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableViewSearch: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableViewSearch: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         rxAbstractMethod(message: dataSourceNotSet)
     }
 }
@@ -37,17 +37,17 @@ open class RxTableViewDataSourceProxy
     , UITableViewDataSource {
 
     /// Typed parent object.
-    public weak private(set) var tableView: UITableView?
+    public weak private(set) var tableViewSearch: UITableView?
 
     /// - parameter tableView: Parent object for delegate proxy.
-    public init(tableView: UITableView) {
-        self.tableView = tableView
-        super.init(parentObject: tableView, delegateProxy: RxTableViewDataSourceProxy.self)
+    public init(tableViewSearch: UITableView) {
+        self.tableViewSearch = tableViewSearch
+        super.init(parentObject: tableViewSearch, delegateProxy: RxTableViewDataSourceProxy.self)
     }
 
     // Register known implementations
     public static func registerKnownImplementations() {
-        self.register { RxTableViewDataSourceProxy(tableView: $0) }
+        self.register { RxTableViewDataSourceProxy(tableViewSearch: $0) }
     }
 
     fileprivate weak var _requiredMethodsDataSource: UITableViewDataSource? = tableViewDataSourceNotSet
@@ -55,13 +55,13 @@ open class RxTableViewDataSourceProxy
     // MARK: delegate
 
     /// Required delegate method implementation.
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (_requiredMethodsDataSource ?? tableViewDataSourceNotSet).tableView(tableView, numberOfRowsInSection: section)
+    public func tableView(_ tableViewSearch: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (_requiredMethodsDataSource ?? tableViewDataSourceNotSet).tableView(tableViewSearch, numberOfRowsInSection: section)
     }
 
     /// Required delegate method implementation.
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return (_requiredMethodsDataSource ?? tableViewDataSourceNotSet).tableView(tableView, cellForRowAt: indexPath)
+    public func tableView(_ tableViewSearch: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return (_requiredMethodsDataSource ?? tableViewDataSourceNotSet).tableView(tableViewSearch, cellForRowAt: indexPath)
     }
 
     /// For more information take a look at `DelegateProxyType`.
