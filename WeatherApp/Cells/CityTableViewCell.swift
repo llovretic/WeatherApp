@@ -13,13 +13,21 @@ class CityTableViewCell: UITableViewCell {
     var cityImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .black
+        let icon = UIImage(named: "square_checkmark_uncheck") as UIImage?
+        imageView.image = icon
         return imageView
     }()
     
     var cityLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var cityLetterLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
         return label
     }()
     
@@ -39,6 +47,8 @@ class CityTableViewCell: UITableViewCell {
         
         self.contentView.addSubview(cityImageView)
         self.contentView.addSubview(cityLabel)
+        self.contentView.addSubview(cityLetterLabel)
+        
         
         cityImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         cityImageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
@@ -48,6 +58,10 @@ class CityTableViewCell: UITableViewCell {
         cityLabel.centerYAnchor.constraint(equalTo: cityImageView.centerYAnchor).isActive = true
         cityLabel.leadingAnchor.constraint(equalTo: cityImageView.trailingAnchor, constant: 8).isActive = true
         cityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        
+        cityImageView.addSubview(cityLetterLabel)
+        cityLetterLabel.centerXAnchor.constraint(equalTo: cityImageView.centerXAnchor).isActive = true
+        cityLetterLabel.centerYAnchor.constraint(equalTo: cityImageView.centerYAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

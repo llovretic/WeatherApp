@@ -10,11 +10,16 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     var tableViewSearch: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        let blurEffect = UIBlurEffect(style: .regular)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        tableView.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect )
+        tableView.backgroundColor = UIColor.gray
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -34,46 +39,63 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchBar.barTintColor = UIColor.white
         searchBar.layer.cornerRadius = 20
         searchBar.clipsToBounds = true
-        
+        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
+        searchTextField.leftView = nil
+        searchTextField.placeholder = "Search"
+        searchTextField.rightView = UIImageView(image: UIImage(named: "search_icon"))
         return searchBar
     }()
     
     let cellIdentifier = "CellID"
     var searchViewModel: SearchViewModel!
     let disposeBag = DisposeBag()
+    let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
+    var searchCoordinatorDelegate: DissmissCoordinatorDelegate?
+    var homeViewModel: HomeViewModel!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .gray
         searchViewModel.initializeObservableCityDataAPI().disposed(by: disposeBag)
         tableViewSearch.register(CityTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         setupView()
-        view.backgroundColor = UIColor.lightGray
         searchBar.becomeFirstResponder()
         tableViewSearch.dataSource = self
         tableViewSearch.delegate = self
+        searchBar.delegate = self
+        initializeDataObservable()
+        initializeLoaderObservable()
+        initializeError()
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("!WTF! u appearu")
-        searchViewModel.triggerGeoDownload()
+//        searchViewModel.triggerGeoDownload()
     }
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return searchViewModel.city.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? CityTableViewCell else {
             return UITableViewCell()
     }
-        cell.cityImageView.image = UIImage(named: "checkmark_uncheck")
-        cell.cityLabel.text = "London"
+        let dataToDisplay = searchViewModel.city[indexPath.row]
+        cell.cityLabel.text = dataToDisplay.cityname
+        cell.cityLetterLabel.text = String(describing: dataToDisplay.cityname!.first!)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 35
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        searchViewModel.selectedCityData(selectedCity: indexPath.row)
     }
     
     func setupView() {
@@ -99,6 +121,56 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func pressedCancelButton(){
         searchViewModel.cancelSearchViewController()
     }
-
-
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchViewModel.cityName = searchBar.text
+        searchViewModel.downloadTrigger.onNext(true)
+    }
+    
+    func initializeDataObservable(){
+        let observer = searchViewModel.dataIsReady
+        observer
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] (event) in
+                
+                if event {
+                    self.loadingIndicator.stopAnimating()
+                    self.tableViewSearch.reloadData()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func initializeLoaderObservable() {
+        let loadingObserver = searchViewModel.loaderControll
+        loadingObserver.asObservable()
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] (event) in
+                if (event) {
+                    self.loadingIndicator.color = UIColor.white
+                    self.loadingIndicator.startAnimating()
+                } else{
+                    self.loadingIndicator.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    
+    func initializeError() {
+        let errorObserver = searchViewModel.errorOccured
+        errorObserver
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (event) in
+                if event {
+                    ErrorController.alert(viewToPresent: self, title: "Greška!", message: "Ups, dogodila se greška!")
+                    self.loadingIndicator.stopAnimating()
+                } else {
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }

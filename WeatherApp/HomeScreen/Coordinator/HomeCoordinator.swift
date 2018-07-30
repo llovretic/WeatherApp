@@ -32,9 +32,15 @@ class HomeCoordinator: Coordinator {
 }
 
 extension HomeCoordinator: HomeCoordinatorDelegate{
-    func openNextScreen() {
-        print("Search coordinator init")
+    func openSearchScreen() {
         let coordinator = SearchCoordinator(presneter: presenter)
+        coordinator.start()
+        coordinator.parentCoordinatorDelegate = self
+        self.addChildCoordinator(childCoordinator: coordinator)
+    }
+    
+    func openSettingsScreen() {
+        let coordinator = SettingsCoordinator(presneter: presenter)
         coordinator.start()
         coordinator.parentCoordinatorDelegate = self
         self.addChildCoordinator(childCoordinator: coordinator)
@@ -46,6 +52,7 @@ extension HomeCoordinator: HomeCoordinatorDelegate{
     
     
 }
+
 extension HomeCoordinator: ParentCoordinatorDelegate{
     func childHasFinished(coordinator: Coordinator) {
         removeChildCoordinator(childCoordinator: coordinator)

@@ -12,10 +12,11 @@ import RxSwift
 import RxCocoa
 
 class GeoNamesServices{
+    var city: [City] = []
     
-    func observableFetchCityData(cityName: String) -> Observable<GeoNamesOld>{
-        return Observable<GeoNamesOld>.create { emitter in
-            let url = "http://api.geonames.org/searchJSON?formatted=true&q=\(cityName)&maxRows=10&lang=es&username=llovretic"
+    func observableFetchCityData(cityName: String) -> Observable<[City]>{
+        return Observable<[City]>.create { emitter in
+            let url = "http://api.geonames.org/searchJSON?formatted=true&q=\(cityName)&maxRows=10&lang=es&username=llovretic&style=full"
             
             let request = Alamofire.request(url)
             request.validate()
@@ -25,16 +26,17 @@ class GeoNamesServices{
                     case .success:
                         let decoder = JSONDecoder()
                         let jsonData = response.data
-                        var geoNames = GeoNamesOld(asciiName: "", lat: "", lng: "")
                         do{
                             let data = try decoder.decode(Json4Swift_Base.self, from: jsonData!)
-                            let geoData = data.geonames?.first
-                            geoNames.asciiName = geoData?.asciiName
-                            geoNames.lat = geoData?.lat
-                            geoNames.lng = geoData?.lng
-                            emitter.onNext(geoNames)
-                            print(data)
-                            
+                            let geoData = data.geonames
+                            for dataOfCities: Geonames in geoData! {
+                                let savingArray = City()
+                                savingArray.cityname = dataOfCities.asciiName
+                                savingArray.latitute = dataOfCities.lat
+                                savingArray.longitude = dataOfCities.lng
+                                self.city.append(savingArray)
+                            }
+                            emitter.onNext(self.city)
                             emitter.onCompleted()
                         }
                         catch let error {

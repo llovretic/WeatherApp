@@ -23,4 +23,5 @@ struct WeatherDataToPresent  {
     var backgroundColor: UIColor?
     var headerImage: UIImage?
     var bodyImage: UIImage?
+    var cityName: String?
 }

@@ -15,8 +15,8 @@ class WeatherAPIService {
     
     func observableFetchWeatherData(latitude: String, longitude: String) -> Observable<WeatherDataForViewModel>{
         return Observable<WeatherDataForViewModel>.create { emitter in
-//            let url = "https://api.darksky.net/forecast/90b66f55eb12c7ac400c2c75ee5f8337/\(latitude),\(longitude)"
-            let url = "https://api.darksky.net/forecast/90b66f55eb12c7ac400c2c75ee5f8337/45.5550,18.6955"
+            let url = "https://api.darksky.net/forecast/90b66f55eb12c7ac400c2c75ee5f8337/\(latitude),\(longitude)"
+//            let url = "https://api.darksky.net/forecast/90b66f55eb12c7ac400c2c75ee5f8337/45.5550,18.6955"
             let request = Alamofire.request(url)
             request.validate()
                 .responseJSON { response in

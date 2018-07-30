@@ -9,5 +9,6 @@
 import Foundation
 
 protocol HomeCoordinatorDelegate: CoordinatorDelegate {
-    func openNextScreen()
+    func openSearchScreen()
+    func openSettingsScreen()
 }

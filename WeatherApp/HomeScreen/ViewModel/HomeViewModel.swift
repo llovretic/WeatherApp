@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import RxSwift
+import Realm
+import RealmSwift
 
 class HomeViewModel {
     let dataIsReady = PublishSubject<Bool>()
@@ -16,11 +18,25 @@ class HomeViewModel {
     let errorOccured = PublishSubject<Bool>()
     var weatherData = WeatherDataToPresent()
     var homeCoordinatorDelegate: HomeCoordinatorDelegate?
+    var realmServise = RealmSerivce()
     
     
     func initializeObservableWeatherDataAPI() -> Disposable {
         let downloadObserver = downloadTrigger.flatMap { (_) -> Observable<WeatherDataForViewModel> in
-            return WeatherAPIService().observableFetchWeatherData(latitude: "", longitude: "")
+            if ( self.realmServise.realm.objects(City.self).isEmpty == true) {
+                let latitude = "45.554962"
+                let longitude = "18.695514"
+                self.weatherData.cityName = "Osijek"
+                return WeatherAPIService().observableFetchWeatherData(latitude: latitude, longitude: longitude)
+            }
+            else {
+                let dataForWeatherAPIService = self.realmServise.realm.objects(City.self).last
+                self.weatherData.cityName = dataForWeatherAPIService?.cityname
+                let longitude = dataForWeatherAPIService?.longitude
+                let latitude = dataForWeatherAPIService?.latitute
+                return WeatherAPIService().observableFetchWeatherData(latitude: longitude!, longitude: latitude!)
+            }
+            
         }
         return downloadObserver
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -63,8 +79,11 @@ class HomeViewModel {
     }
     
     func openSearchScreen(){
-        print("ViewModel open search screen")
-        self.homeCoordinatorDelegate?.openNextScreen()
+        self.homeCoordinatorDelegate?.openSearchScreen()
+    }
+    
+    func openSettingsScreen(){
+        self.homeCoordinatorDelegate?.openSettingsScreen()
     }
     
     func checkForWeatherData(){
