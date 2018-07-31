@@ -15,19 +15,24 @@ class CityTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         let icon = UIImage(named: "square_checkmark_uncheck") as UIImage?
         imageView.image = icon
+        imageView.backgroundColor = .clear
         return imageView
     }()
     
     var cityLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.textColor = .white
         return label
     }()
     
     var cityLetterLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.textColor = .white
+        label.backgroundColor = .clear
         return label
     }()
     
@@ -44,7 +49,7 @@ class CityTableViewCell: UITableViewCell {
     }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        self.backgroundColor = .clear
         self.contentView.addSubview(cityImageView)
         self.contentView.addSubview(cityLabel)
         self.contentView.addSubview(cityLetterLabel)

@@ -16,15 +16,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     let disposeBag = DisposeBag()
     var settingsViewModel: SettingsViewModel!
     var alert = UIAlertController()
-    let cellIdentifier = "WeatherViewCell"
+    let cellIdentifier = "SettingsViewCell"
     
     
     let doneButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
+        button.contentMode = .scaleAspectFit
         button.setTitle("Done", for: .normal)
-        button.setTitleColor(.clear, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 20
+        button.clipsToBounds = true
         button.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -35,17 +38,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let blurEffect = UIBlurEffect(style: .regular)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         view.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect )
-        //        view.backgroundView = blurEffectView
-        view.separatorColor = .clear
+        view.backgroundColor = UIColor.clear
         view.separatorStyle = .none
-        view.backgroundColor = .clear
         return view
     }()
     
     var locationLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 28)
         label.textAlignment = .center
         label.text = "Location"
         label.textColor = UIColor.white
@@ -55,7 +56,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var unitsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 28)
         label.textAlignment = .center
         label.text = "Units"
         label.textColor = UIColor.white
@@ -105,7 +106,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var conditionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "GothamRounded-Light", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 28)
         label.textAlignment = .center
         label.text = "Conditions"
         label.textColor = UIColor.white
@@ -127,6 +128,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_check"), for: .selected)
         button.setTitleColor(.clear, for: .normal)
+        button.contentMode = .scaleAspectFit
         //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         return button
         
@@ -146,6 +148,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_check"), for: .selected)
         button.setTitleColor(.clear, for: .normal)
+        button.contentMode = .scaleAspectFit
         //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         return button
         
@@ -165,6 +168,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_check"), for: .selected)
         button.setTitleColor(.clear, for: .normal)
+        button.contentMode = .scaleAspectFit
         //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -181,7 +185,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var stackViewRainWindPressureButtons: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.axis = .horizontal
         stackView.alignment = .center
         return stackView
@@ -189,8 +193,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
-        citiesTableView.register(CityTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        addBlurEffectToBackground()
+        citiesTableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         citiesTableView.dataSource = self
         citiesTableView.delegate = self
         settingsViewModel.getStoredCities().disposed(by: disposeBag)
@@ -202,6 +206,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         getDataFromRealm()
     }
     
@@ -212,24 +217,19 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settingsViewModel.cities.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? CityTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? SettingsTableViewCell else {
             return UITableViewCell()
         }
         let cityData = settingsViewModel.cities[indexPath.row]
         cell.cityLabel.text = cityData.cityname
-        cell.cityLetterLabel.text = String(describing: cityData.cityname!.first!)
+        
+        cell.settingsViewCellDelegate = self
         return  cell
     }
     
@@ -239,22 +239,23 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        searchViewModel.citySelected(selectedCity: indexPath.row)
+        settingsViewModel.citySelected(selectedCty: indexPath.row)
         
     }
     
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            self.settingsViewModel.deleteSelectedCity(selectedCity: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//    }
+    func addBlurEffectToBackground(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+    }
     
     func setupView(){
         view.addSubview(locationLabel)
         locationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true
         locationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        locationLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        locationLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         view.addSubview(citiesTableView)
         citiesTableView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10).isActive = true
@@ -265,7 +266,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         view.addSubview(unitsLabel)
         unitsLabel.topAnchor.constraint(equalTo: citiesTableView.bottomAnchor, constant: 10).isActive = true
         unitsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        unitsLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        unitsLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         view.addSubview(metricButton)
         metricButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
@@ -292,7 +293,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         view.addSubview(conditionLabel)
         conditionLabel.topAnchor.constraint(equalTo: imperialButton.bottomAnchor, constant: 10).isActive = true
         conditionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        conditionLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        conditionLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         view.addSubview(stackViewRainWindPressureImages)
         stackViewRainWindPressureImages.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -303,18 +304,35 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         stackViewRainWindPressureImages.addArrangedSubview(windImageView)
         stackViewRainWindPressureImages.addArrangedSubview(pressureImageView)
         
-        view.addSubview(stackViewRainWindPressureButtons)
-        stackViewRainWindPressureButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        stackViewRainWindPressureButtons.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        stackViewRainWindPressureButtons.topAnchor.constraint(equalTo: stackViewRainWindPressureImages.bottomAnchor, constant: 4).isActive = true
-        stackViewRainWindPressureImages.addArrangedSubview(humidityButon)
-        stackViewRainWindPressureImages.addArrangedSubview(windButon)
-        stackViewRainWindPressureImages.addArrangedSubview(pressureButon)
+        view.addSubview(humidityButon)
+        humidityButon.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        humidityButon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        humidityButon.topAnchor.constraint(equalTo: humidityImageView.bottomAnchor, constant: 4).isActive = true
+        humidityButon.centerXAnchor.constraint(equalTo: humidityImageView.centerXAnchor).isActive = true
+        
+        view.addSubview(windButon)
+        windButon.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        windButon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        windButon.topAnchor.constraint(equalTo: windImageView.bottomAnchor, constant: 4).isActive = true
+        windButon.centerXAnchor.constraint(equalTo: windImageView.centerXAnchor).isActive = true
+        
+        view.addSubview(pressureButon)
+        pressureButon.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        pressureButon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        pressureButon.topAnchor.constraint(equalTo: pressureImageView.bottomAnchor, constant: 4).isActive = true
+        pressureButon.centerXAnchor.constraint(equalTo: pressureImageView.centerXAnchor).isActive = true
+        
+        view.addSubview(doneButton)
+        doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
+        doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15).isActive = true
+        doneButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        doneButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
     }
     
     @objc func doneButtonPressed() {
-        self.settingsViewModel.dissmissTheView()
+        settingsViewModel.settingsCoordinatorDelegate?.dissmissViewController()
+        settingsViewModel.settingsCoordinatorDelegate?.viewHasFinished()
     }
     
     func getDataFromRealm() {
@@ -346,5 +364,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension SettingsViewController: SettingsViewCellDelegate{
+    func deleteButtonTapped(sender: SettingsTableViewCell) {
+        print("delete delegate u viewcontrolleru")
+        guard let buttonTappedAtIndexPath = citiesTableView.indexPath(for: sender) else { return }
+        settingsViewModel.deleteSelectedCity(selectedCity: buttonTappedAtIndexPath.row)
     }
 }

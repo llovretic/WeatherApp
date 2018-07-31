@@ -38,10 +38,6 @@ class SettingsViewModel{
         return realmObaerverTrigger
     }
     
-    func dissmissTheView() {
-        self.settingsCoordinatorDelegate?.dissmissViewController()
-    }
-    
     func deleteSelectedCity(selectedCity: Int) {
         let cityToRemove = cities[selectedCity]
         if ( self.realmServise.delete(object: cityToRemove) ) {
@@ -50,10 +46,24 @@ class SettingsViewModel{
         } else {
             errorOccurd.onNext(true)
         }
-        
-        
-        
     }
     
-    
+    func citySelected(selectedCty: Int){
+        let citySelected = City(value: cities[selectedCty])
+        if (self.realmServise.delete(object: cities[selectedCty])){
+        }
+        else {
+            errorOccurd.onNext(true)
+        }
+        if (self.realmServise.create(object: citySelected)){
+        }
+        else {
+            errorOccurd.onNext(true)
+        }
+        self.settingsCoordinatorDelegate?.dissmissViewController()
+        self.settingsCoordinatorDelegate?.viewHasFinished()
+    }
 }
+
+
+

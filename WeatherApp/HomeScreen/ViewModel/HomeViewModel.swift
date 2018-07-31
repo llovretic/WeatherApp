@@ -20,6 +20,8 @@ class HomeViewModel {
     var homeCoordinatorDelegate: HomeCoordinatorDelegate?
     var realmServise = RealmSerivce()
     
+
+    
     
     func initializeObservableWeatherDataAPI() -> Disposable {
         let downloadObserver = downloadTrigger.flatMap { (_) -> Observable<WeatherDataForViewModel> in

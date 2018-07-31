@@ -49,6 +49,7 @@ class SearchViewModel{
     
     func cancelSearchViewController(){
         self.searchCoordinatorDelegate?.dissmissViewController()
+        self.searchCoordinatorDelegate?.viewHasFinished()
     }
     
     func triggerGeoDownload(cityName: String){
@@ -70,7 +71,8 @@ class SearchViewModel{
                 errorOccured.onNext(true)
             }
         }
-           self.searchCoordinatorDelegate?.dissmissViewController()
+        
+        cancelSearchViewController()
     }
-
+    
 }

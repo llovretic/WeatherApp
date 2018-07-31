@@ -13,6 +13,7 @@ class SettingsCoordinator: Coordinator {
     var presenter: UINavigationController
     var childCoordinators: [Coordinator] = []
     let controller: SettingsViewController
+    var homeCoordinatorDelegate: HomeCoordinatorDelegate?
     weak var parentCoordinatorDelegate: ParentCoordinatorDelegate?
     
     
@@ -25,7 +26,24 @@ class SettingsCoordinator: Coordinator {
     }
     
     func start() {
-        presenter.present(controller, animated: true)
+        controller.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+        controller.settingsViewModel.settingsCoordinatorDelegate = self
+        presenter.present(controller, animated: false)
+    }
+    
+    
+}
+
+extension SettingsCoordinator: DissmissCoordinatorDelegate {
+    func dissmissViewController() {
+        self.presenter.dismiss(animated: true, completion: {
+            self.homeCoordinatorDelegate?.weatherDownloadTrigger()
+            print(self.homeCoordinatorDelegate!)
+        })
+    }
+    
+    func viewHasFinished() {
+        childCoordinators.removeAll()
     }
     
     

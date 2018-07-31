@@ -29,7 +29,7 @@ class RealmSerivce {
     func delete<T: City>(object: T) -> Bool{
         do {
             try realm.write {
-                realm.delete(realm.objects(City.self).filter("title=%@", object.cityname!))
+                realm.delete(realm.objects(City.self).filter("cityname=%@", object.cityname!))
             }
             
         } catch {

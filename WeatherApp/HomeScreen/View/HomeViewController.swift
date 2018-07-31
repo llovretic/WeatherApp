@@ -235,7 +235,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         homeViewModel.initializeObservableWeatherDataAPI().disposed(by: disposeBag)
         initializeDataObservable()
         initializeErrorObservable()
-//        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -349,7 +348,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         searchImageView.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
     }
     
-    fileprivate func getWeatherDataToDisplay() {
+     func getWeatherDataToDisplay() {
         let weatherDataToDisplay = self.homeViewModel.weatherData
         self.pressureIndicator.text = "\(weatherDataToDisplay.pressure!) hpa"
         self.windSpeed.text = "\(weatherDataToDisplay.windSpeed!) mph"

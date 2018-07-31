@@ -16,7 +16,6 @@
 		47D3405F210EE31F0094D00F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D3405E210EE31F0094D00F /* SettingsViewController.swift */; };
 		47D34061210EE3380094D00F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D34060210EE3380094D00F /* SettingsViewModel.swift */; };
 		47D34063210EE34A0094D00F /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D34062210EE34A0094D00F /* SettingsCoordinator.swift */; };
-		47D34065210EE85F0094D00F /* SettingsCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D34064210EE85F0094D00F /* SettingsCoordinatorDelegate.swift */; };
 		47D6830321088D690018B80B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D6830221088D690018B80B /* AppDelegate.swift */; };
 		47D6830521088D690018B80B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D6830421088D690018B80B /* HomeViewController.swift */; };
 		47D6830821088D690018B80B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47D6830621088D690018B80B /* Main.storyboard */; };
@@ -49,6 +48,8 @@
 		47E9B4EB210B6A4300FE80EE /* Bbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E9B4E4210B6A4300FE80EE /* Bbox.swift */; };
 		47E9B4EC210B6A4300FE80EE /* AlternateNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E9B4E5210B6A4300FE80EE /* AlternateNames.swift */; };
 		47E9B4EE210B701E00FE80EE /* DissmissCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E9B4ED210B701E00FE80EE /* DissmissCoordinatorDelegate.swift */; };
+		47F04D07211037B5002E7F2E /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F04D06211037B5002E7F2E /* SettingsTableViewCell.swift */; };
+		47F04D0921103EE3002E7F2E /* SettingsViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F04D0821103EE3002E7F2E /* SettingsViewCellDelegate.swift */; };
 		C058749C63D5569AFC4F6D9A /* Pods_WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46304761A67D3AB6E7FA3304 /* Pods_WeatherApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,7 +81,6 @@
 		47D3405E210EE31F0094D00F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		47D34060210EE3380094D00F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		47D34062210EE34A0094D00F /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
-		47D34064210EE85F0094D00F /* SettingsCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinatorDelegate.swift; sourceTree = "<group>"; };
 		47D682FF21088D690018B80B /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47D6830221088D690018B80B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47D6830421088D690018B80B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +119,8 @@
 		47E9B4E4210B6A4300FE80EE /* Bbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bbox.swift; sourceTree = "<group>"; };
 		47E9B4E5210B6A4300FE80EE /* AlternateNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternateNames.swift; sourceTree = "<group>"; };
 		47E9B4ED210B701E00FE80EE /* DissmissCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DissmissCoordinatorDelegate.swift; sourceTree = "<group>"; };
+		47F04D06211037B5002E7F2E /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		47F04D0821103EE3002E7F2E /* SettingsViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewCellDelegate.swift; sourceTree = "<group>"; };
 		944F2537E10E68B180B8CA43 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F0F9ED571EC4316033215841 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -228,7 +230,6 @@
 			isa = PBXGroup;
 			children = (
 				47D34062210EE34A0094D00F /* SettingsCoordinator.swift */,
-				47D34064210EE85F0094D00F /* SettingsCoordinatorDelegate.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -390,6 +391,8 @@
 			isa = PBXGroup;
 			children = (
 				47E9B4DB210B25D600FE80EE /* CityTableViewCell.swift */,
+				47F04D0821103EE3002E7F2E /* SettingsViewCellDelegate.swift */,
+				47F04D06211037B5002E7F2E /* SettingsTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -626,6 +629,8 @@
 			files = (
 				476724E4210890DB00EFB762 /* WeatherAPIService.swift in Sources */,
 				47E717AC210998BC003C4CF8 /* WeatherDataToPresent.swift in Sources */,
+				47F04D07211037B5002E7F2E /* SettingsTableViewCell.swift in Sources */,
+				47F04D0921103EE3002E7F2E /* SettingsViewCellDelegate.swift in Sources */,
 				47E717B52109D4C1003C4CF8 /* ErrorController.swift in Sources */,
 				47E9B4E9210B6A4300FE80EE /* Timezone.swift in Sources */,
 				47E9B4C2210AEAF800FE80EE /* HomeCoordinator.swift in Sources */,
@@ -641,7 +646,6 @@
 				47E9B4DA210B17E400FE80EE /* HomeCoordinatorDelegate.swift in Sources */,
 				47E717B72109D76F003C4CF8 /* Home.swift in Sources */,
 				47D34061210EE3380094D00F /* SettingsViewModel.swift in Sources */,
-				47D34065210EE85F0094D00F /* SettingsCoordinatorDelegate.swift in Sources */,
 				47E9B4BD210AE98800FE80EE /* CoordinatorDelegate.swift in Sources */,
 				476724EE21089AAD00EFB762 /* CurrentWeather.swift in Sources */,
 				47E717B02109A9E4003C4CF8 /* DataAndErrorWrapper.swift in Sources */,

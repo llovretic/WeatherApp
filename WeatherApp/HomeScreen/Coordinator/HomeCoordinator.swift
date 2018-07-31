@@ -32,10 +32,15 @@ class HomeCoordinator: Coordinator {
 }
 
 extension HomeCoordinator: HomeCoordinatorDelegate{
+    func weatherDownloadTrigger() {
+        controller.homeViewModel.downloadTrigger.onNext(true)
+    }
+    
     func openSearchScreen() {
         let coordinator = SearchCoordinator(presneter: presenter)
         coordinator.start()
         coordinator.parentCoordinatorDelegate = self
+        coordinator.homeCoordinatorDelegate = self
         self.addChildCoordinator(childCoordinator: coordinator)
     }
     
@@ -43,14 +48,13 @@ extension HomeCoordinator: HomeCoordinatorDelegate{
         let coordinator = SettingsCoordinator(presneter: presenter)
         coordinator.start()
         coordinator.parentCoordinatorDelegate = self
+        coordinator.homeCoordinatorDelegate = self
         self.addChildCoordinator(childCoordinator: coordinator)
     }
     
     func viewHasFinished() {
         childCoordinators.removeAll()
     }
-    
-    
 }
 
 extension HomeCoordinator: ParentCoordinatorDelegate{

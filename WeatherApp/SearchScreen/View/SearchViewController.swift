@@ -18,7 +18,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let blurEffect = UIBlurEffect(style: .regular)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         tableView.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect )
-        tableView.backgroundColor = UIColor.gray
+        tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -51,14 +51,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let disposeBag = DisposeBag()
     let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
     var searchCoordinatorDelegate: DissmissCoordinatorDelegate?
-    var homeViewModel: HomeViewModel!
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         searchViewModel.initializeObservableCityDataAPI().disposed(by: disposeBag)
         tableViewSearch.register(CityTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        addBlurEffectToBackground()
         setupView()
         searchBar.becomeFirstResponder()
         tableViewSearch.dataSource = self
@@ -71,7 +71,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        searchViewModel.triggerGeoDownload()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
     }
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -96,6 +96,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchViewModel.selectedCityData(selectedCity: indexPath.row)
+    }
+    
+    func addBlurEffectToBackground(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
     }
     
     func setupView() {
