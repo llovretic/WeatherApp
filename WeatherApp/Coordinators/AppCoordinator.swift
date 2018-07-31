@@ -21,7 +21,5 @@ class AppCoordinator: Coordinator {
         let homeCoordinator = HomeCoordinator(presneter: presenter)
         homeCoordinator.start()
         self.addChildCoordinator(childCoordinator: homeCoordinator)
-    }
-    
-    
+    }  
 }

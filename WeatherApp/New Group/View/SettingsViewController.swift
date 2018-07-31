@@ -68,7 +68,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(#imageLiteral(resourceName: "square_checkmark_uncheck"), for: .normal)
         button.setBackgroundImage(#imageLiteral(resourceName: "square_checkmark_check"), for: .selected)
-        //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+                button.addTarget(self, action: #selector(setOrUnsetMetric), for: .touchUpInside)
         return button
     }()
     
@@ -88,7 +88,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.setBackgroundImage(#imageLiteral(resourceName: "square_checkmark_uncheck"), for: .normal)
         button.setBackgroundImage(#imageLiteral(resourceName: "square_checkmark_check"), for: .selected)
         button.setTitleColor(.clear, for: .normal)
-        //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(setOrUnsetImeprial), for: .touchUpInside)
         return button
         
     }()
@@ -129,7 +129,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_check"), for: .selected)
         button.setTitleColor(.clear, for: .normal)
         button.contentMode = .scaleAspectFit
-        //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+                button.addTarget(self, action: #selector(toggleHumidity), for: .touchUpInside)
         return button
         
     }()
@@ -149,7 +149,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_check"), for: .selected)
         button.setTitleColor(.clear, for: .normal)
         button.contentMode = .scaleAspectFit
-        //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+                button.addTarget(self, action: #selector(toggleWind), for: .touchUpInside)
         return button
         
     }()
@@ -169,7 +169,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_check"), for: .selected)
         button.setTitleColor(.clear, for: .normal)
         button.contentMode = .scaleAspectFit
-        //        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(togglePressure), for: .touchUpInside)
         return button
     }()
     
@@ -197,6 +197,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         citiesTableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         citiesTableView.dataSource = self
         citiesTableView.delegate = self
+        settingsViewModel.initializeSettingsConfiguration()
         settingsViewModel.getStoredCities().disposed(by: disposeBag)
         setupView()
         initializeRealmObservable()
@@ -250,6 +251,35 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(blurEffectView)
     }
+    
+    
+    @objc func setOrUnsetMetric(){
+        metricButton.isSelected = settingsViewModel.toggleMetric()
+        setupView()
+    }
+    
+    @objc func setOrUnsetImeprial(){
+        imperialButton.isSelected = settingsViewModel.toggleImperial()
+        setupView()
+        
+    }
+    
+    @objc func toggleWind(){
+        windButon.isSelected = !settingsViewModel.toggleWind()
+        setupView()
+    }
+    
+    @objc func togglePressure(){
+        pressureButon.isSelected = !settingsViewModel.togglePressure()
+        setupView()
+    }
+    
+    @objc func toggleHumidity(){
+        humidityButon.isSelected = !settingsViewModel.toggleHumidity()
+        setupView()
+    }
+    
+    
     
     func setupView(){
         view.addSubview(locationLabel)
@@ -328,6 +358,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         doneButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         doneButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
+        
+        
+        humidityButon.isSelected = !settingsViewModel.configuration.humidityIsHidden
+        pressureButon.isSelected = !settingsViewModel.configuration.pressureIsHidden
+        windButon.isSelected = !settingsViewModel.configuration.windIsHidden
+        
+        imperialButton.isSelected = settingsViewModel.configuration.unit
+        metricButton.isSelected = !settingsViewModel.configuration.unit
+        
     }
     
     @objc func doneButtonPressed() {
@@ -369,7 +408,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
 extension SettingsViewController: SettingsViewCellDelegate{
     func deleteButtonTapped(sender: SettingsTableViewCell) {
-        print("delete delegate u viewcontrolleru")
         guard let buttonTappedAtIndexPath = citiesTableView.indexPath(for: sender) else { return }
         settingsViewModel.deleteSelectedCity(selectedCity: buttonTappedAtIndexPath.row)
     }

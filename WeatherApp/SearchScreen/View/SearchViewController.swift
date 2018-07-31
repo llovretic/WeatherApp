@@ -67,8 +67,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         initializeDataObservable()
         initializeLoaderObservable()
         initializeError()
-        // Do any additional setup after loading the view.
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)

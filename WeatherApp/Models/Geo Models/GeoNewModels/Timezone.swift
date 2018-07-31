@@ -12,23 +12,24 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-struct Timezone : Codable {
-	let gmtOffset : Int?
-	let timeZoneId : String?
-	let dstOffset : Int?
+//struct Timezone : Codable {
+//    let gmtOffset : Int?
+//    let timeZoneId : String?
+//    let dstOffset : Int?
+//
+//    enum CodingKeys: String, CodingKey {
+//
+//        case gmtOffset = "gmtOffset"
+//        case timeZoneId = "timeZoneId"
+//        case dstOffset = "dstOffset"
+//    }
+//
+//    init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        gmtOffset = try values.decodeIfPresent(Int.self, forKey: .gmtOffset)
+//        timeZoneId = try values.decodeIfPresent(String.self, forKey: .timeZoneId)
+//        dstOffset = try values.decodeIfPresent(Int.self, forKey: .dstOffset)
+//    }
+//
+//}
 
-	enum CodingKeys: String, CodingKey {
-
-		case gmtOffset = "gmtOffset"
-		case timeZoneId = "timeZoneId"
-		case dstOffset = "dstOffset"
-	}
-
-	init(from decoder: Decoder) throws {
-		let values = try decoder.container(keyedBy: CodingKeys.self)
-		gmtOffset = try values.decodeIfPresent(Int.self, forKey: .gmtOffset)
-		timeZoneId = try values.decodeIfPresent(String.self, forKey: .timeZoneId)
-		dstOffset = try values.decodeIfPresent(Int.self, forKey: .dstOffset)
-	}
-
-}

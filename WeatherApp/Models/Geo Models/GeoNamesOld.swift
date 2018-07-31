@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct GeoNamesOld: Decodable {
-    
-    var asciiName : String?
-    var lat : String?
-    var lng : String?
+//struct GeoNamesOld: Decodable {
+//
+//    var asciiName : String?
+//    var lat : String?
+//    var lng : String?
 //    let alternateNames : [AlternateNames]?
     
-}
+//}
 
 //struct AlternateNames: Decodable {
 //    let name : String?

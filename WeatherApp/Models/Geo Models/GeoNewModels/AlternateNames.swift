@@ -12,20 +12,8 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-struct AlternateNames : Codable {
-	let name : String?
-	let lang : String?
+//struct AlternateNames : Codable {
+//    let name : String?
+//    let lang : String?
+//}
 
-	enum CodingKeys: String, CodingKey {
-
-		case name = "name"
-		case lang = "lang"
-	}
-
-	init(from decoder: Decoder) throws {
-		let values = try decoder.container(keyedBy: CodingKeys.self)
-		name = try values.decodeIfPresent(String.self, forKey: .name)
-		lang = try values.decodeIfPresent(String.self, forKey: .lang)
-	}
-
-}

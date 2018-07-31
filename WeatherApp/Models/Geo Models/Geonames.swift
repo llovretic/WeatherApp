@@ -1,5 +1,5 @@
 //
-//  CitiyDataForViewModel.swift
+//  Geonames.swift
 //  WeatherApp
 //
 //  Created by Luka Lovretić on 27/07/2018.
@@ -7,8 +7,8 @@
 //
 
 import Foundation
-
-//struct CityDataForViewModel: Decodable {
-//    let geonames: Geonames
-//}
-
+struct Geonames : Decodable {
+	let asciiName : String?
+	let lat : String?
+	let lng : String?
+}

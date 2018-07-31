@@ -17,8 +17,61 @@ class SettingsViewModel{
     var errorOccurd = PublishSubject<Bool>()
     var settingsCoordinatorDelegate: DissmissCoordinatorDelegate?
     var realmServise = RealmSerivce()
+    var configuration: Configuration!
     
+    func initializeSettingsConfiguration() {
+        configuration = realmServise.getSettingsFromRealm()
+    }
     
+    func toggleMetric() -> Bool {
+        if (realmServise.chechForUpdateSettings(unit: !configuration.unit, humidityBool: configuration.humidityIsHidden, windBool: configuration.windIsHidden, pressureBool: configuration.pressureIsHidden)){
+        }
+        else
+        {
+            errorOccurd.onNext(true)
+        }
+        return !configuration.unit
+    }
+    
+    func toggleImperial() -> Bool{
+        if (realmServise.chechForUpdateSettings(unit: !configuration.unit, humidityBool: configuration.humidityIsHidden, windBool: configuration.windIsHidden, pressureBool: configuration.pressureIsHidden)){
+        }
+        else
+        {
+            errorOccurd.onNext(true)
+        }
+        return !configuration.unit
+    }
+    
+    func toggleWind() -> Bool {
+        if (realmServise.chechForUpdateSettings(unit: configuration.unit, humidityBool: configuration.humidityIsHidden, windBool: !configuration.windIsHidden, pressureBool: configuration.pressureIsHidden)){
+        }
+        else
+        {
+            errorOccurd.onNext(true)
+        }
+        return !configuration.windIsHidden
+    }
+    
+    func togglePressure() -> Bool {
+        if (realmServise.chechForUpdateSettings(unit: configuration.unit, humidityBool: configuration.humidityIsHidden, windBool: configuration.windIsHidden, pressureBool: !configuration.pressureIsHidden)){
+        }
+        else
+        {
+            errorOccurd.onNext(true)
+        }
+        return !configuration.pressureIsHidden
+    }
+    
+    func toggleHumidity() -> Bool {
+        if (realmServise.chechForUpdateSettings(unit: configuration.unit, humidityBool: !configuration.humidityIsHidden, windBool: configuration.windIsHidden, pressureBool: configuration.pressureIsHidden)){
+        }
+        else
+        {
+            errorOccurd.onNext(true)
+        }
+        return !configuration.humidityIsHidden
+    }
     
     func getStoredCities() -> Disposable {
         let realmObaerverTrigger = realmTrigger

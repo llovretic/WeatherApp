@@ -25,6 +25,7 @@ class SearchViewModel{
     func initializeObservableCityDataAPI() -> Disposable {
         let downloadObserver = downloadTrigger.flatMap { (_) ->  Observable<[City]> in
             self.loaderControll.onNext(true)
+            self.cityName = self.cityName.replacingOccurrences(of: " ", with: "%20")
             return GeoNamesServices().observableFetchCityData(cityName: self.cityName)
         }
         return downloadObserver

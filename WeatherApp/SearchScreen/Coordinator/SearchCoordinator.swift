@@ -38,7 +38,6 @@ extension SearchCoordinator: DissmissCoordinatorDelegate {
     func dissmissViewController() {
         self.presenter.dismiss(animated: true, completion: {
             self.homeCoordinatorDelegate?.weatherDownloadTrigger()
-            print(self.homeCoordinatorDelegate!)
         })
     }
     

@@ -36,19 +36,9 @@ class CityTableViewCell: UITableViewCell {
         return label
     }()
     
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         self.backgroundColor = .clear
         self.contentView.addSubview(cityImageView)
         self.contentView.addSubview(cityLabel)

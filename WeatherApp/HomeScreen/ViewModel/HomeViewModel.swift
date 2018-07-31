@@ -19,9 +19,23 @@ class HomeViewModel {
     var weatherData = WeatherDataToPresent()
     var homeCoordinatorDelegate: HomeCoordinatorDelegate?
     var realmServise = RealmSerivce()
-    
+    var settingsConfiguration: Configuration!
 
-    
+    func initializeSettingsConfiguration() {
+        if (realmServise.realm.objects(Configuration.self).isEmpty == true){
+            settingsConfiguration = Configuration()
+            if (!realmServise.create(object: settingsConfiguration)){
+                errorOccured.onNext(true) }
+        } else {
+            if (settingsConfiguration == nil){
+                settingsConfiguration = realmServise.getSettingsFromRealm()
+            } else {
+                if (  !realmServise.chechForUpdateSettings(unit: settingsConfiguration.unit, humidityBool: settingsConfiguration.humidityIsHidden, windBool: settingsConfiguration.windIsHidden, pressureBool: settingsConfiguration.pressureIsHidden) ) {
+                    errorOccured.onNext(true)
+                }
+            }            
+        }
+    }
     
     func initializeObservableWeatherDataAPI() -> Disposable {
         let downloadObserver = downloadTrigger.flatMap { (_) -> Observable<WeatherDataForViewModel> in
@@ -65,6 +79,8 @@ class HomeViewModel {
                     self.weatherData.temperatureMin = dailyItems.temperatureMin
                     
                 }
+                self.weatherData = self.settingsConfiguration.values(weatherObject: self.weatherData)
+                
                 return DataAndErrorWrapper(data: self.weatherData, error: nil)
             })
             .catchError({ (error) -> Observable<DataAndErrorWrapper<WeatherDataToPresent>> in
