@@ -11,6 +11,8 @@
 		476724EB21089A8800EFB762 /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476724EA21089A8800EFB762 /* DailyWeather.swift */; };
 		476724EE21089AAD00EFB762 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476724ED21089AAD00EFB762 /* CurrentWeather.swift */; };
 		47A4C53F210F28B2005F65CA /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A4C53E210F28B2005F65CA /* RealmService.swift */; };
+		47BDFBD9211194FC00F84F32 /* GothamRoundedBook_21018.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47BDFBD7211194FC00F84F32 /* GothamRoundedBook_21018.ttf */; };
+		47BDFBDA211194FC00F84F32 /* GothamRoundedLight_21020.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47BDFBD8211194FC00F84F32 /* GothamRoundedLight_21020.ttf */; };
 		47C6FD252109F9EF0084B377 /* GothamRoundedBook_21018.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */; };
 		47C6FD262109F9EF0084B377 /* GothamRoundedLight_21020.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */; };
 		47D3405F210EE31F0094D00F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D3405E210EE31F0094D00F /* SettingsViewController.swift */; };
@@ -72,6 +74,8 @@
 		476724EA21089A8800EFB762 /* DailyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
 		476724ED21089AAD00EFB762 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		47A4C53E210F28B2005F65CA /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
+		47BDFBD7211194FC00F84F32 /* GothamRoundedBook_21018.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamRoundedBook_21018.ttf; sourceTree = "<group>"; };
+		47BDFBD8211194FC00F84F32 /* GothamRoundedLight_21020.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamRoundedLight_21020.ttf; sourceTree = "<group>"; };
 		47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = GothamRoundedBook_21018.ttf; path = "../../../../Downloads/gotham-rounded/GothamRoundedBook_21018.ttf"; sourceTree = "<group>"; };
 		47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = GothamRoundedLight_21020.ttf; path = "../../../../Downloads/gotham-rounded/GothamRoundedLight_21020.ttf"; sourceTree = "<group>"; };
 		47D3405E210EE31F0094D00F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +198,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		47BDFBD6211194E500F84F32 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				47BDFBD7211194FC00F84F32 /* GothamRoundedBook_21018.ttf */,
+				47BDFBD8211194FC00F84F32 /* GothamRoundedLight_21020.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		47C6FD222109F90B0084B377 /* CustomFont */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +265,7 @@
 		47D6830121088D690018B80B /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				47BDFBD6211194E500F84F32 /* Fonts */,
 				47E9B4DD210B25EE00FE80EE /* Cells */,
 				47E9B4B9210AE96D00FE80EE /* Coordinators */,
 				47E717B32109D4B2003C4CF8 /* Error */,
@@ -516,8 +530,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47BDFBDA211194FC00F84F32 /* GothamRoundedLight_21020.ttf in Resources */,
 				47D6830D21088D690018B80B /* LaunchScreen.storyboard in Resources */,
 				47D6830A21088D690018B80B /* Assets.xcassets in Resources */,
+				47BDFBD9211194FC00F84F32 /* GothamRoundedBook_21018.ttf in Resources */,
 				47C6FD262109F9EF0084B377 /* GothamRoundedLight_21020.ttf in Resources */,
 				47C6FD252109F9EF0084B377 /* GothamRoundedBook_21018.ttf in Resources */,
 				47D6830821088D690018B80B /* Main.storyboard in Resources */,
