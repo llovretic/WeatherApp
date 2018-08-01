@@ -44,6 +44,8 @@
 		47E9B4EB210B6A4300FE80EE /* Bbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E9B4E4210B6A4300FE80EE /* Bbox.swift */; };
 		47E9B4EC210B6A4300FE80EE /* AlternateNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E9B4E5210B6A4300FE80EE /* AlternateNames.swift */; };
 		47E9B4EE210B701E00FE80EE /* DissmissCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E9B4ED210B701E00FE80EE /* DissmissCoordinatorDelegate.swift */; };
+		47FA5088211191C500B1E328 /* GothamRoundedBook_21018.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47FA5086211191C500B1E328 /* GothamRoundedBook_21018.ttf */; };
+		47FA5089211191C500B1E328 /* GothamRoundedLight_21020.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47FA5087211191C500B1E328 /* GothamRoundedLight_21020.ttf */; };
 		C058749C63D5569AFC4F6D9A /* Pods_WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46304761A67D3AB6E7FA3304 /* Pods_WeatherApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +111,8 @@
 		47E9B4E4210B6A4300FE80EE /* Bbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bbox.swift; sourceTree = "<group>"; };
 		47E9B4E5210B6A4300FE80EE /* AlternateNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternateNames.swift; sourceTree = "<group>"; };
 		47E9B4ED210B701E00FE80EE /* DissmissCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DissmissCoordinatorDelegate.swift; sourceTree = "<group>"; };
+		47FA5086211191C500B1E328 /* GothamRoundedBook_21018.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamRoundedBook_21018.ttf; sourceTree = "<group>"; };
+		47FA5087211191C500B1E328 /* GothamRoundedLight_21020.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamRoundedLight_21020.ttf; sourceTree = "<group>"; };
 		944F2537E10E68B180B8CA43 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F0F9ED571EC4316033215841 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,6 +215,7 @@
 		47D6830121088D690018B80B /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				47FA5085211191B100B1E328 /* Fonts */,
 				47E9B4DD210B25EE00FE80EE /* Cells */,
 				47E9B4B9210AE96D00FE80EE /* Coordinators */,
 				47E717B32109D4B2003C4CF8 /* Error */,
@@ -358,6 +363,15 @@
 			path = GeoNewModels;
 			sourceTree = "<group>";
 		};
+		47FA5085211191B100B1E328 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				47FA5086211191C500B1E328 /* GothamRoundedBook_21018.ttf */,
+				47FA5087211191C500B1E328 /* GothamRoundedLight_21020.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		60925ECC9F37834BF18C5443 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,8 +499,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47FA5089211191C500B1E328 /* GothamRoundedLight_21020.ttf in Resources */,
 				47D6830D21088D690018B80B /* LaunchScreen.storyboard in Resources */,
 				47D6830A21088D690018B80B /* Assets.xcassets in Resources */,
+				47FA5088211191C500B1E328 /* GothamRoundedBook_21018.ttf in Resources */,
 				47C6FD262109F9EF0084B377 /* GothamRoundedLight_21020.ttf in Resources */,
 				47C6FD252109F9EF0084B377 /* GothamRoundedBook_21018.ttf in Resources */,
 				47D6830821088D690018B80B /* Main.storyboard in Resources */,
