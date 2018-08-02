@@ -13,7 +13,6 @@ import RxSwift
 
 class RealmSerivce {
     var realm = try! Realm()
-    let errorOccured = PublishSubject<Bool>()
     
     func create<T: Object >(object: T) -> Bool {
         do{
@@ -29,7 +28,7 @@ class RealmSerivce {
     func delete<T: City>(object: T) -> Bool{
         do {
             try realm.write {
-                realm.delete(realm.objects(City.self).filter("cityname=%@", object.cityname!))
+                realm.delete(realm.objects(City.self).filter("cityName=%@", object.cityName!))
             }
             
         } catch {

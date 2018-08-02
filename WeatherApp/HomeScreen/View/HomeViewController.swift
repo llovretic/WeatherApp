@@ -99,7 +99,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         return imageView
     }()
     
-    var rainChance: UILabel = {
+    var humidityPercent: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "GothamRounded-Light", size: 20)
@@ -224,17 +224,16 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         return button
     }()
     
-    
-    
     let disposeBag = DisposeBag()
     var homeViewModel: HomeViewModel!
-    
+    let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         homeViewModel.initializeObservableWeatherDataAPI().disposed(by: disposeBag)
         initializeDataObservable()
         initializeErrorObservable()
+        initializeLoaderObservable()
         homeViewModel.initializeSettingsConfiguration()
     }
     
@@ -309,7 +308,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         stackViewRainWindPressure.topAnchor.constraint(equalTo: stackViewRainWindPressureImages.bottomAnchor).isActive = true
         stackViewRainWindPressure.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         stackViewRainWindPressure.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        stackViewRainWindPressure.addArrangedSubview(rainChance)
+        stackViewRainWindPressure.addArrangedSubview(humidityPercent)
         stackViewRainWindPressure.addArrangedSubview(windSpeed)
         stackViewRainWindPressure.addArrangedSubview(pressureIndicator)
         
@@ -349,31 +348,31 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         searchImageView.trailingAnchor.constraint(equalTo: searchBarView.trailingAnchor, constant: -8).isActive = true
         searchImageView.topAnchor.constraint(equalTo: searchBarView.topAnchor).isActive = true
         searchImageView.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
-
+        
     }
     
-     func getWeatherDataToDisplay() {
+    func getWeatherDataToDisplay() {
         let settingsConfiguration = homeViewModel.settingsConfiguration
         let weatherDataToDisplay = self.homeViewModel.weatherData
         
         
         if (settingsConfiguration?.unit  == UnitSystem.Imperial.value ){
-            self.temperatureLabel.text = "\(weatherDataToDisplay.temperature!)°"
-            self.minTemperature.text = "\(weatherDataToDisplay.temperatureMin!) °F"
-            self.maxTemperature.text = "\(weatherDataToDisplay.temperatureMax!) °F"
-            self.windSpeed.text = "\(weatherDataToDisplay.windSpeed!) mph"
+            self.temperatureLabel.text = "\(weatherDataToDisplay.temperature)°"
+            self.minTemperature.text = "\(weatherDataToDisplay.temperatureMin) °F"
+            self.maxTemperature.text = "\(weatherDataToDisplay.temperatureMax) °F"
+            self.windSpeed.text = "\(weatherDataToDisplay.windSpeed) mph"
             
         }
         
         if (settingsConfiguration?.unit == UnitSystem.Metric.value){
-            self.temperatureLabel.text = "\(weatherDataToDisplay.temperature!)°C"
-            self.minTemperature.text = "\(weatherDataToDisplay.temperatureMin!) °C"
-            self.maxTemperature.text = "\(weatherDataToDisplay.temperatureMax!) °C"
-            self.windSpeed.text = "\(weatherDataToDisplay.windSpeed!) kmh"
+            self.temperatureLabel.text = "\(weatherDataToDisplay.temperature)°C"
+            self.minTemperature.text = "\(weatherDataToDisplay.temperatureMin) °C"
+            self.maxTemperature.text = "\(weatherDataToDisplay.temperatureMax) °C"
+            self.windSpeed.text = "\(weatherDataToDisplay.windSpeed) kmh"
         }
         
         
-        rainChance.isHidden = (settingsConfiguration?.humidityIsHidden)!
+        humidityPercent.isHidden = (settingsConfiguration?.humidityIsHidden)!
         windSpeed.isHidden = (settingsConfiguration?.windIsHidden)!
         pressureIndicator.isHidden = (settingsConfiguration?.pressureIsHidden)!
         rainImageView.isHidden = (settingsConfiguration?.humidityIsHidden)!
@@ -381,8 +380,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         pressureImageView.isHidden = (settingsConfiguration?.pressureIsHidden)!
         
         
-        self.pressureIndicator.text = "\(weatherDataToDisplay.pressure!) hpa"
-        self.rainChance.text = "\(weatherDataToDisplay.humidity!)%"
+        self.pressureIndicator.text = "\(weatherDataToDisplay.pressure) hpa"
+        self.humidityPercent.text = "\(weatherDataToDisplay.humidity)%"
         self.summaryLabel.text = weatherDataToDisplay.summary
         self.bodyImageView.image = weatherDataToDisplay.bodyImage
         self.headerImageView.image = weatherDataToDisplay.headerImage
@@ -409,13 +408,35 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         errorObserver
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (event) in
+            .subscribe(onNext: {  [unowned self] (event) in
                 if event {
                     ErrorController.alert(viewToPresent: self, title: "Greška!", message: "Ups, došlo je do pogreške")
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.hidesWhenStopped = true
                 }
             })
             .disposed(by: disposeBag)
     }
     
+    func initializeLoaderObservable() {
+        let loadingObserver = homeViewModel.loaderControll
+        loadingObserver
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] (event) in
+                if (event) {
+                    self.loadingIndicator.center = self.view.center
+                    self.loadingIndicator.color = UIColor.black
+                    self.view.addSubview(self.loadingIndicator)
+                    self.view.bringSubview(toFront: self.loadingIndicator)
+                    self.loadingIndicator.startAnimating()
+                }
+                else {
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.removeFromSuperview()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }
 

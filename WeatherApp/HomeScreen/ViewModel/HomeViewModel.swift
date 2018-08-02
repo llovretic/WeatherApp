@@ -14,23 +14,25 @@ import RealmSwift
 
 class HomeViewModel {
     let dataIsReady = PublishSubject<Bool>()
+    let loaderControll = PublishSubject<Bool>()
     let downloadTrigger = PublishSubject<Bool>()
     let errorOccured = PublishSubject<Bool>()
     var weatherData = WeatherDataToPresent()
     var homeCoordinatorDelegate: HomeCoordinatorDelegate?
-    var realmServise = RealmSerivce()
+    var realmService = RealmSerivce()
+    var weatherService = WeatherAPIService()
     var settingsConfiguration: Configuration!
 
     func initializeSettingsConfiguration() {
-        if (realmServise.realm.objects(Configuration.self).isEmpty == true){
+        if (realmService.realm.objects(Configuration.self).isEmpty == true){
             settingsConfiguration = Configuration()
-            if (!realmServise.create(object: settingsConfiguration)){
+            if (!realmService.create(object: settingsConfiguration)){
                 errorOccured.onNext(true) }
         } else {
             if (settingsConfiguration == nil){
-                settingsConfiguration = realmServise.getSettingsFromRealm()
+                settingsConfiguration = realmService.getSettingsFromRealm()
             } else {
-                if (  !realmServise.chechForUpdateSettings(unit: settingsConfiguration.unit, humidityBool: settingsConfiguration.humidityIsHidden, windBool: settingsConfiguration.windIsHidden, pressureBool: settingsConfiguration.pressureIsHidden) ) {
+                if (  !realmService.chechForUpdateSettings(unit: settingsConfiguration.unit, humidityBool: settingsConfiguration.humidityIsHidden, windBool: settingsConfiguration.windIsHidden, pressureBool: settingsConfiguration.pressureIsHidden) ) {
                     errorOccured.onNext(true)
                 }
             }            
@@ -39,18 +41,19 @@ class HomeViewModel {
     
     func initializeObservableWeatherDataAPI() -> Disposable {
         let downloadObserver = downloadTrigger.flatMap { (_) -> Observable<WeatherDataForViewModel> in
-            if ( self.realmServise.realm.objects(City.self).isEmpty == true) {
+            self.loaderControll.onNext(true)
+            if ( self.realmService.realm.objects(City.self).isEmpty == true) {
                 let latitude = "45.554962"
                 let longitude = "18.695514"
                 self.weatherData.cityName = "Osijek"
-                return WeatherAPIService().observableFetchWeatherData(latitude: latitude, longitude: longitude)
+                return self.weatherService.observableFetchWeatherData(latitude: latitude, longitude: longitude)
             }
             else {
-                let dataForWeatherAPIService = self.realmServise.realm.objects(City.self).last
-                self.weatherData.cityName = dataForWeatherAPIService?.cityname
+                let dataForWeatherAPIService = self.realmService.realm.objects(City.self).last
+                self.weatherData.cityName = dataForWeatherAPIService?.cityName
                 let longitude = dataForWeatherAPIService?.longitude
                 let latitude = dataForWeatherAPIService?.latitute
-                return WeatherAPIService().observableFetchWeatherData(latitude: longitude!, longitude: latitude!)
+                return self.weatherService.observableFetchWeatherData(latitude: latitude!, longitude: longitude!)
             }
             
         }
@@ -66,7 +69,7 @@ class HomeViewModel {
                 self.weatherData.pressure = Int((data.currently?.pressure)!.rounded())
                 self.weatherData.windSpeed = (data.currently?.windSpeed)!
                 
-                let backgroundData: (bodyImage: UIImage, headerImage: UIImage,color: UIColor) = (self.weatherData.icon?.values())!
+                let backgroundData: (bodyImage: UIImage, headerImage: UIImage,color: UIColor) = self.checkIconData()
                 self.weatherData.bodyImage = backgroundData.bodyImage
                 self.weatherData.headerImage = backgroundData.headerImage
                 self.weatherData.backgroundColor = backgroundData.color
@@ -80,7 +83,6 @@ class HomeViewModel {
                     
                 }
                 self.weatherData = self.settingsConfiguration.values(weatherObject: self.weatherData)
-                
                 return DataAndErrorWrapper(data: self.weatherData, error: nil)
             })
             .catchError({ (error) -> Observable<DataAndErrorWrapper<WeatherDataToPresent>> in
@@ -89,12 +91,21 @@ class HomeViewModel {
             .subscribe(onNext: { [unowned self](dataToPresent) in
                 if dataToPresent.error == nil {
                     self.dataIsReady.onNext(true)
+                    self.loaderControll.onNext(false)
                 }
                 else {
                     self.errorOccured.onNext(true)
                 }
             })
     }
+    
+    func checkIconData() -> (bodyImage: UIImage, headerImage: UIImage, color: UIColor) {
+        if (self.weatherData.icon == nil){
+            self.weatherData.icon = icon(rawValue: "clear-day")
+        }
+        return self.weatherData.icon!.values()
+    }
+    
     
     func openSearchScreen(){
         self.homeCoordinatorDelegate?.openSearchScreen()

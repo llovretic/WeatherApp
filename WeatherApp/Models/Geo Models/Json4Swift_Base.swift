@@ -9,5 +9,5 @@
 import Foundation
 struct Json4Swift_Base : Decodable {
 	let totalResultsCount : Int?
-	let geonames : [Geonames]?
+	let geonames : [Geonames]!
 }

@@ -66,12 +66,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchBar.delegate = self
         initializeDataObservable()
         initializeLoaderObservable()
-        initializeError()
+        initializeErrorObservable()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+    }
+    
+    deinit {
+        print("Single News deinit")
     }
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -84,8 +89,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return UITableViewCell()
     }
         let dataToDisplay = searchViewModel.city[indexPath.row]
-        cell.cityLabel.text = dataToDisplay.cityname
-        cell.cityLetterLabel.text = String(describing: dataToDisplay.cityname!.first!)
+        cell.cityLabel.text = dataToDisplay.cityName
+        cell.cityLetterLabel.text = String(describing: dataToDisplay.cityName!.first!)
         
         return cell
     }
@@ -150,33 +155,37 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             .disposed(by: disposeBag)
     }
     
-    func initializeLoaderObservable() {
-        let loadingObserver = searchViewModel.loaderControll
-        loadingObserver.asObservable()
+    func initializeErrorObservable() {
+        let errorObserver = searchViewModel.errorOccured
+        errorObserver
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] (event) in
-                if (event) {
-                    self.loadingIndicator.color = UIColor.white
-                    self.loadingIndicator.startAnimating()
-                } else{
+            .subscribe(onNext: {  [unowned self] (event) in
+                if event {
+                    ErrorController.alert(viewToPresent: self, title: "Greška!", message: "Ups, dogodila se greška!")
                     self.loadingIndicator.stopAnimating()
+                } else {
                 }
             })
             .disposed(by: disposeBag)
     }
     
-    
-    func initializeError() {
-        let errorObserver = searchViewModel.errorOccured
-        errorObserver
+    func initializeLoaderObservable() {
+        let loadingObserver = searchViewModel.loaderControll
+        loadingObserver
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (event) in
-                if event {
-                    ErrorController.alert(viewToPresent: self, title: "Greška!", message: "Ups, dogodila se greška!")
+            .subscribe(onNext: { [unowned self] (event) in
+                if (event) {
+                    self.loadingIndicator.center = self.view.center
+                    self.loadingIndicator.color = UIColor.black
+                    self.view.addSubview(self.loadingIndicator)
+                    self.view.bringSubview(toFront: self.loadingIndicator)
+                    self.loadingIndicator.startAnimating()
+                }
+                else {
                     self.loadingIndicator.stopAnimating()
-                } else {
+                    self.loadingIndicator.removeFromSuperview()
                 }
             })
             .disposed(by: disposeBag)

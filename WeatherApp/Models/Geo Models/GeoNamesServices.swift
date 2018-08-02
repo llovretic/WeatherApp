@@ -31,7 +31,7 @@ class GeoNamesServices{
                             let geoData = data.geonames
                             for dataOfCities: Geonames in geoData! {
                                 let savingArray = City()
-                                savingArray.cityname = dataOfCities.asciiName
+                                savingArray.cityName = dataOfCities.asciiName
                                 savingArray.latitute = dataOfCities.lat
                                 savingArray.longitude = dataOfCities.lng
                                 self.city.append(savingArray)

@@ -21,10 +21,10 @@ class Configuration: Object {
         switch unit {
         case false :
             var metricWeatherObject = weatherObject
-            metricWeatherObject.windSpeed = (metricWeatherObject.windSpeed! * 1.609344).rounded()
-            metricWeatherObject.temperature = (Int((Float(metricWeatherObject.temperature!) - 32) * (5/9)))
-            metricWeatherObject.temperatureMax = ((metricWeatherObject.temperatureMax! - 32) * (5/9)).rounded()
-            metricWeatherObject.temperatureMin = ((metricWeatherObject.temperatureMin! - 32) * (5/9)).rounded()
+            metricWeatherObject.windSpeed = (metricWeatherObject.windSpeed * 1.609344).rounded()
+            metricWeatherObject.temperature = (Int((Float(metricWeatherObject.temperature) - 32) * (5/9)))
+            metricWeatherObject.temperatureMax = ((metricWeatherObject.temperatureMax - 32) * (5/9)).rounded()
+            metricWeatherObject.temperatureMin = ((metricWeatherObject.temperatureMin - 32) * (5/9)).rounded()
             
             return metricWeatherObject
             

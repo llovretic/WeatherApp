@@ -14,7 +14,7 @@ class ErrorController: UIAlertController {
     {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "U redu", style: .default)
+        let action = UIAlertAction(title: "U redu", style: .default, handler: nil)
         
         alert.addAction(action)
         viewToPresent.present(alert, animated: true, completion:nil)

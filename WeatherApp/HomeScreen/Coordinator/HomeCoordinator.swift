@@ -54,6 +54,7 @@ extension HomeCoordinator: HomeCoordinatorDelegate{
     
     func viewHasFinished() {
         childCoordinators.removeAll()
+        parentCoordinatorDelegate?.childHasFinished(coordinator: self)
     }
 }
 

@@ -17,8 +17,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var settingsViewModel: SettingsViewModel!
     var alert = UIAlertController()
     let cellIdentifier = "SettingsViewCell"
-    
-    
+    var homeViewModel: HomeViewModel!
+    var settingsCoordinatorDelegate: DissmissCoordinatorDelegate?
+
     let doneButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -201,7 +202,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsViewModel.getStoredCities().disposed(by: disposeBag)
         setupView()
         initializeRealmObservable()
-        initializeError()
+        initializeErrorObesrvable()
         
     }
     
@@ -218,6 +219,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    deinit {
+        print("Settings deinit")
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settingsViewModel.cities.count
         
@@ -228,7 +232,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return UITableViewCell()
         }
         let cityData = settingsViewModel.cities[indexPath.row]
-        cell.cityLabel.text = cityData.cityname
+        cell.cityLabel.text = cityData.cityName
         
         cell.settingsViewCellDelegate = self
         return  cell
@@ -391,12 +395,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }).disposed(by: disposeBag)
     }
     
-    func initializeError() {
-        let errorObserver = self.settingsViewModel.errorOccurd
+    func initializeErrorObesrvable() {
+        let errorObserver = settingsViewModel.errorOccurd
         errorObserver
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (event) in
+            .subscribe(onNext: { [unowned self] (event) in
                 if event {
                      ErrorController.alert(viewToPresent: self, title: "Greška!", message: "Ups, došlo je do pogreške")
                 } else {
@@ -404,6 +408,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             })
             .disposed(by: disposeBag)
     }
+    
 }
 
 extension SettingsViewController: SettingsViewCellDelegate{
@@ -412,3 +417,14 @@ extension SettingsViewController: SettingsViewCellDelegate{
         settingsViewModel.deleteSelectedCity(selectedCity: buttonTappedAtIndexPath.row)
     }
 }
+
+
+
+
+
+
+
+
+
+
+

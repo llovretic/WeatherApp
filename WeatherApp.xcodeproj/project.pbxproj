@@ -13,8 +13,6 @@
 		47A4C53F210F28B2005F65CA /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A4C53E210F28B2005F65CA /* RealmService.swift */; };
 		47BDFBD9211194FC00F84F32 /* GothamRoundedBook_21018.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47BDFBD7211194FC00F84F32 /* GothamRoundedBook_21018.ttf */; };
 		47BDFBDA211194FC00F84F32 /* GothamRoundedLight_21020.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47BDFBD8211194FC00F84F32 /* GothamRoundedLight_21020.ttf */; };
-		47C6FD252109F9EF0084B377 /* GothamRoundedBook_21018.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */; };
-		47C6FD262109F9EF0084B377 /* GothamRoundedLight_21020.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */; };
 		47D3405F210EE31F0094D00F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D3405E210EE31F0094D00F /* SettingsViewController.swift */; };
 		47D34061210EE3380094D00F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D34060210EE3380094D00F /* SettingsViewModel.swift */; };
 		47D34063210EE34A0094D00F /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D34062210EE34A0094D00F /* SettingsCoordinator.swift */; };
@@ -76,8 +74,6 @@
 		47A4C53E210F28B2005F65CA /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		47BDFBD7211194FC00F84F32 /* GothamRoundedBook_21018.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamRoundedBook_21018.ttf; sourceTree = "<group>"; };
 		47BDFBD8211194FC00F84F32 /* GothamRoundedLight_21020.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamRoundedLight_21020.ttf; sourceTree = "<group>"; };
-		47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = GothamRoundedBook_21018.ttf; path = "../../../../Downloads/gotham-rounded/GothamRoundedBook_21018.ttf"; sourceTree = "<group>"; };
-		47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = GothamRoundedLight_21020.ttf; path = "../../../../Downloads/gotham-rounded/GothamRoundedLight_21020.ttf"; sourceTree = "<group>"; };
 		47D3405E210EE31F0094D00F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		47D34060210EE3380094D00F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		47D34062210EE34A0094D00F /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
@@ -207,15 +203,6 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		47C6FD222109F90B0084B377 /* CustomFont */ = {
-			isa = PBXGroup;
-			children = (
-				47C6FD232109F9EF0084B377 /* GothamRoundedBook_21018.ttf */,
-				47C6FD242109F9EF0084B377 /* GothamRoundedLight_21020.ttf */,
-			);
-			path = CustomFont;
-			sourceTree = "<group>";
-		};
 		47D3405B210EE2EB0094D00F /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,7 +263,6 @@
 				47D6830E21088D690018B80B /* Info.plist */,
 				47D6830921088D690018B80B /* Assets.xcassets */,
 				47D6830221088D690018B80B /* AppDelegate.swift */,
-				47C6FD222109F90B0084B377 /* CustomFont */,
 				476724DD2108906800EFB762 /* StoryBoard */,
 			);
 			path = WeatherApp;
@@ -534,8 +520,6 @@
 				47D6830D21088D690018B80B /* LaunchScreen.storyboard in Resources */,
 				47D6830A21088D690018B80B /* Assets.xcassets in Resources */,
 				47BDFBD9211194FC00F84F32 /* GothamRoundedBook_21018.ttf in Resources */,
-				47C6FD262109F9EF0084B377 /* GothamRoundedLight_21020.ttf in Resources */,
-				47C6FD252109F9EF0084B377 /* GothamRoundedBook_21018.ttf in Resources */,
 				47D6830821088D690018B80B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

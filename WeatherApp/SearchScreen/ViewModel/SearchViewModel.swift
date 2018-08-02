@@ -41,6 +41,7 @@ class SearchViewModel{
                 if dataToPresent.error == nil {
                     self.city = dataToPresent.data
                     self.dataIsReady.onNext(true)
+                    self.loaderControll.onNext(false)
                 }
                 else {
                     self.errorOccured.onNext(true)
@@ -59,21 +60,19 @@ class SearchViewModel{
     }
     
     func selectedCityData(selectedCity: Int){
-        HomeViewModel().downloadTrigger.onNext(true)
         let citySelectedData = City(value: self.city[selectedCity])
-        if (realmServise.realm.objects(City.self).filter("cityname=%@", citySelectedData.cityname!) == citySelectedData ) {
-            if ( self.realmServise.delete(object: citySelectedData) ){}
-            else {
-                errorOccured.onNext(true)
-            }
-        } else {
-            if ( self.realmServise.create(object: citySelectedData) ) {}
-            else {
-                errorOccured.onNext(true)
+        let realmCityData = realmServise.realm.objects(City.self).filter("cityName=%@", citySelectedData.cityName!)
+        for cities in realmCityData{
+            if (cities.cityName == citySelectedData.cityName){
+                if ( self.realmServise.delete(object: citySelectedData) ){}
+                else {
+                    errorOccured.onNext(true)
+                }
             }
         }
-        
+        if ( !self.realmServise.create(object: citySelectedData) ) {
+            self.errorOccured.onNext(true)
+        }
         cancelSearchViewController()
     }
-    
 }
